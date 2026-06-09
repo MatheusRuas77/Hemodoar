@@ -1,0 +1,27 @@
+@startuml
+skinparam monochrome true
+
+actor Administrador as Admin
+
+box "Frontend" 
+  participant ":Angular UI" as UI
+end box
+
+box "Backend - Spring Boot" #LightBlue
+  participant ":CampanhaController" as Ctrl
+  participant ":CampanhaService" as Serv
+  participant ":CampanhaRepository" as Repo
+end box
+
+database ":PostgreSQL" as DB
+
+Admin -> UI : 1: preenche dados da campanha
+UI -> Ctrl : 2: POST /campanhas
+Ctrl -> Serv : 3: criarCampanha(dto)
+Serv -> Repo : 4: save(campanha)
+Repo -> DB : 5: INSERT
+DB --> Repo
+Repo --> Serv
+Serv --> Ctrl : 6: Campanha criada
+Ctrl --> UI : 7: 201 Created
+@enduml

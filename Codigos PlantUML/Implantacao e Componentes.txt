@@ -1,0 +1,64 @@
+@startuml
+skinparam componentStyle uml2
+skinparam monochrome true
+skinparam nodesep 50
+skinparam ranksep 70
+
+' ==================== Implantação (Nodes) ====================
+node "Cliente" as Client {
+  [Angular Frontend] as Angular
+}
+
+node "Servidor de Aplicação" as AppServer {
+  [Spring Boot Backend] as Backend
+}
+
+node "Banco de Dados" as DbServer {
+  [PostgreSQL] as Postgres
+}
+
+node "Message Broker" as KafkaServer {
+  [Apache Kafka] as Kafka
+}
+
+' ==================== Componentes Internos ====================
+package "Spring Boot - Camadas" as Layers {
+  [Controllers] as Controllers
+  [Services] as Services
+  [Repositories] as Repos
+  [Kafka Producer] as KafkaProd
+}
+
+' ==================== Conexões ====================
+Angular -[#blue]-> Controllers : HTTPS / REST
+Controllers -[#black]-> Services
+Services -[#black]-> Repos
+Services -[#red]-> KafkaProd : publica
+Repos -[#green]-> Postgres : JDBC
+KafkaProd -[#red]-> Kafka : envia notificações
+
+' ==================== Notas ====================
+note right of Layers
+  **Services principais:**
+  • DoadorService
+  • DoacaoService
+  • CampanhaService
+  • EstoqueService
+  • NotificacaoService
+end note
+
+note right of Backend
+  Java 17 + Spring Boot 3
+  Spring Security + Spring Kafka
+end note
+
+note right of DbServer
+  Tabelas: doador, doacao, 
+  campanha, bolsa_sangue, funcionario
+end note
+
+note right of KafkaServer
+  Tópicos: falta_sangue, 
+  nova_campanha, etc.
+end note
+@enduml

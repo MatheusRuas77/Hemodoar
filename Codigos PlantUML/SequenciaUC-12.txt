@@ -1,0 +1,15 @@
+@startuml
+skinparam monochrome true
+
+title UC-12 - Enviar Notificação de Falta de Sangue
+
+participant "EstoqueService" as Estoque
+participant "NotificacaoService" as NotifService
+participant "KafkaProducer" as Kafka
+actor Doador
+
+Estoque -> NotifService : 1: detectarFaltaDeSangue(tipo)
+NotifService -> Kafka : 2: publicarEvento(tipo)
+Kafka -> Doador : 3: enviarNotificacao()
+Doador --> Kafka : 4: notificacaoRecebida()
+@enduml

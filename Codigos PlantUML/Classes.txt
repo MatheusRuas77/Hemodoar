@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+package "Entidades Principais" {
+
+class Doador {
+  -id: Long
+  -nome: String
+  -cpf: String
+  -email: String
+  -telefone: String
+  -dataNascimento: LocalDate
+  -tipoSanguineo: String
+  -fatorRh: String
+  -endereco: String
+}
+
+class Funcionario {
+  -id: Long
+  -nome: String
+  -cpf: String
+  -email: String
+  -cargo: String
+}
+
+class BancoDeSangue {
+  -id: Long
+  -nome: String
+  -endereco: String
+  -contato: String
+}
+
+class Campanha {
+  -id: Long
+  -titulo: String
+  -descricao: String
+  -dataInicio: LocalDate
+  -dataFim: LocalDate
+  -local: String
+  -tiposPrioritarios: List<String>
+  -status: String
+}
+
+class Doacao {
+  -id: Long
+  -dataDoacao: LocalDateTime
+  -volume: Double
+  -tipoSanguineo: String
+}
+
+class BolsaDeSangue {
+  -id: Long
+  -tipoSanguineo: String
+  -volume: Double
+  -dataValidade: LocalDate
+  -status: String
+}
+
+class Notificacao {
+  -id: Long
+  -mensagem: String
+  -dataEnvio: LocalDateTime
+}
+
+}
+
+' Relacionamentos
+Doador "1" --> "0..*" Doacao : realiza
+Funcionario "1" --> "0..*" Doacao : registra
+BancoDeSangue "1" --> "0..*" Campanha : organiza
+BancoDeSangue "1" --> "1" BolsaDeSangue : gerencia
+Campanha "1" --> "0..*" Doacao : opcional
+Doacao "1" --> "1" BolsaDeSangue : gera
+BolsaDeSangue "0..*" --> "1" BancoDeSangue
+@enduml

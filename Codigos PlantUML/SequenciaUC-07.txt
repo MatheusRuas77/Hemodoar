@@ -1,0 +1,22 @@
+@startuml
+skinparam monochrome true
+title UC-07 - Consultar Estoque de Sangue
+
+actor Administrador
+participant ":Angular UI" as UI
+participant ":EstoqueController" as Ctrl
+participant ":EstoqueService" as Serv
+participant ":BolsaRepository" as Repo
+database ":PostgreSQL" as DB
+
+Administrador -> UI : 1: acessa tela de estoque
+UI -> Ctrl : 2: GET /estoque?tipo=...
+Ctrl -> Serv : 3: consultarEstoque(tipo)
+Serv -> Repo : 4: findByTipoSanguineo(tipo)
+Repo -> DB : 5: SELECT
+DB --> Repo : 6: lista de bolsas
+Repo --> Serv
+Serv --> Ctrl : 7: DTO com estoque
+Ctrl --> UI : 8: retorna dados
+UI --> Administrador : 9: exibe estoque atual
+@enduml

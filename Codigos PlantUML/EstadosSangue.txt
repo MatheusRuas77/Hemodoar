@@ -1,0 +1,15 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+title Estado da Bolsa de Sangue
+
+[*] --> Coletada
+
+Coletada --> EmEstoque : armazenar()
+EmEstoque --> Reservada : reservarParaTransfusao()
+Reservada --> Transfundida : transfundir()
+Reservada --> Descartada : prazoVencido() or testeFalhou()
+EmEstoque --> Descartada : vencida()
+Transfundida --> [*]
+Descartada --> [*]
+@enduml

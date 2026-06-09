@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+
+actor Administrador as Admin
+
+box "Frontend" 
+  participant ":Angular UI" as UI
+end box
+
+box "Backend - Spring Boot" #LightBlue
+  participant ":DoacaoController" as Ctrl
+  participant ":DoacaoService" as Serv
+  participant ":DoacaoRepository" as Repo
+  participant ":EstoqueService" as EstoqueServ
+end box
+
+database ":PostgreSQL" as DB
+
+Admin -> UI : 1: seleciona doador + dados
+UI -> Ctrl : 2: POST /doacoes
+Ctrl -> Serv : 3: registrarDoacao(dto)
+Serv -> Repo : 4: save(doacao)
+Repo -> DB : 5: INSERT
+DB --> Repo
+Serv -> EstoqueServ : 6: atualizarEstoque(doacao)
+EstoqueServ -> DB : 7: UPDATE estoque
+Serv --> Ctrl : 8: Doação registrada
+Ctrl --> UI : 9: Sucesso
+@enduml

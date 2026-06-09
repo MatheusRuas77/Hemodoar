@@ -1,0 +1,19 @@
+@startuml
+actor Doador
+participant ":UI (Angular)" as UI
+participant ":DoadorController" as Ctrl
+participant ":DoadorService" as Serv
+participant ":DoadorRepository" as Repo
+database PostgreSQL
+
+Doador -> UI: Preenche formulário
+UI -> Ctrl: POST /doadores
+Ctrl -> Serv: cadastrarDoador(dto)
+Serv -> Repo: save(doador)
+Repo -> PostgreSQL: INSERT
+PostgreSQL --> Repo: ID gerado
+Repo --> Serv
+Serv --> Ctrl
+Ctrl --> UI: 201 Created
+UI --> Doador: Sucesso
+@enduml

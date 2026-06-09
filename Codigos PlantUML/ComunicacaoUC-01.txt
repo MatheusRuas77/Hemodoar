@@ -1,0 +1,28 @@
+@startuml
+skinparam monochrome true
+
+actor Doador as D
+
+box "Frontend" 
+  participant ":Angular UI" as UI
+end box
+
+box "Backend - Spring Boot" #LightBlue
+  participant ":DoadorController" as Ctrl
+  participant ":DoadorService" as Serv
+  participant ":DoadorRepository" as Repo
+end box
+
+database ":PostgreSQL" as DB
+
+D -> UI : 1: preencheForm(dados)
+UI -> Ctrl : 2: POST /doadores (DTO)
+Ctrl -> Serv : 3: cadastrarDoador(dto)
+Serv -> Repo : 4: save(doador)
+Repo -> DB : 5: INSERT
+DB --> Repo : 6: ID gerado
+Repo --> Serv
+Serv --> Ctrl : 7: Doador salvo
+Ctrl --> UI : 8: 201 Created + dados
+UI --> D : 9: Sucesso
+@enduml

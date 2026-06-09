@@ -1,0 +1,72 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+title Diagrama Entidade-Relacionamento - Hemodoar
+
+entity Doador {
+  * id : Long <<PK>>
+  * nome : String
+  * cpf : String <<unique>>
+  * email : String <<unique>>
+  * telefone : String
+  * data_nascimento : Date
+  * tipo_sanguineo : String
+  * fator_rh : String
+  * endereco : String
+  ultima_doacao : Date
+}
+
+entity Funcionario {
+  * id : Long <<PK>>
+  * nome : String
+  * cpf : String <<unique>>
+  * email : String
+  * cargo : String
+}
+
+entity BancoDeSangue {
+  * id : Long <<PK>>
+  * nome : String
+  * endereco : String
+  * contato : String
+}
+
+entity Campanha {
+  * id : Long <<PK>>
+  * titulo : String
+  * descricao : String
+  * data_inicio : Date
+  * data_fim : Date
+  * local : String
+  * tipos_prioritarios : String
+  * status : String
+  * banco_id : Long <<FK>>
+}
+
+entity Doacao {
+  * id : Long <<PK>>
+  * data_doacao : Timestamp
+  * volume : Double
+  * tipo_sanguineo : String
+  * doador_id : Long <<FK>>
+  * funcionario_id : Long <<FK>>
+  * campanha_id : Long <<FK>>
+}
+
+entity BolsaDeSangue {
+  * id : Long <<PK>>
+  * tipo_sanguineo : String
+  * volume : Double
+  * data_validade : Date
+  * status : String
+  * doacao_id : Long <<FK>>
+  * banco_id : Long <<FK>>
+}
+
+Doador ||--o{ Doacao
+Funcionario ||--o{ Doacao
+BancoDeSangue ||--o{ Campanha
+BancoDeSangue ||--o{ BolsaDeSangue
+Doacao ||--|| BolsaDeSangue
+Campanha ||--o{ Doacao
+@enduml

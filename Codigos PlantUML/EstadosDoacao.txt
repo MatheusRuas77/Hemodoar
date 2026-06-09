@@ -1,0 +1,18 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+title Estado da Campanha de Doação
+
+[*] --> Criada
+
+Criada --> Ativa : iniciarCampanha()
+Ativa --> Suspensa : suspender()
+Suspensa --> Ativa : reativar()
+Ativa --> Encerrada : encerrar() ou dataFim
+Encerrada --> [*]
+
+note right of Ativa
+  - Doadores podem se inscrever
+  - Notificações ativas
+end note
+@enduml

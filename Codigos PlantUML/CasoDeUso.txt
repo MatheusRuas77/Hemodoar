@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+actor Doador
+actor Administrador
+actor "Sistema de Notificação" as Sistema
+
+rectangle "Hemodoar" {
+  Doador --> (UC-01 Cadastrar Doador)
+  Doador --> (UC-02 Realizar Login)
+  Doador --> (UC-03 Atualizar Dados Cadastrais)
+  Doador --> (UC-04 Consultar Campanhas Ativas)
+  Doador --> (UC-05 Visualizar Histórico de Doações)
+
+  Administrador --> (UC-06 Registrar Doação)
+  Administrador --> (UC-07 Consultar Estoque)
+  Administrador --> (UC-08 Atualizar Estoque)
+  Administrador --> (UC-09 Criar Campanha)
+  Administrador --> (UC-10 Editar Campanha)
+  Administrador --> (UC-11 Encerrar Campanha)
+  Administrador --> (UC-13 Consultar Doadores Compatíveis)
+  Administrador --> (UC-14 Gerenciar Bancos de Sangue)
+
+  Sistema --> (UC-12 Enviar Notificação)
+}
+@enduml
